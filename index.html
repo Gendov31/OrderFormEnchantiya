@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Създаване на персонализирана фигура</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="form-header">
+            <div class="logo-container">
+                <img src="https://cdn.shopify.com/s/files/1/0842/0933/6585/files/3VBtJCtx5KR74ureTaiHPHDUmps.avif?v=1745497220" alt="Лого" class="logo">
+            </div>
+        </header>
+        
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-steps">
+                <div class="step-indicator active" data-step="1">
+                    <div class="step-dot">1</div>
+                    <div class="step-label">Снимки</div>
+                </div>
+                <div class="step-indicator" data-step="2">
+                    <div class="step-dot">2</div>
+                    <div class="step-label">Детайли за фигурата</div>
+                </div>
+                <div class="step-indicator" data-step="3">
+                    <div class="step-dot">3</div>
+                    <div class="step-label">Преглед</div>
+                </div>
+                <div class="step-indicator" data-step="4">
+                    <div class="step-dot">4</div>
+                    <div class="step-label">Контакт и доставка</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-container">
+            <form id="figureForm">
+                <!-- Стъпка 1: Снимки -->
+                <div class="form-step active" id="step1">
+                    <h2>Качете вашата снимка</h2>
+                    <p>Моля, качете ясна снимка на вашето лице. Тя ще бъде използвана за създаването на вашата персонализирана фигура.</p>
+                    
+                    <div class="photo-upload-container">
+                        <div class="photo-upload" id="photoUpload">
+                            <input type="file" id="photoInput" accept="image/jpeg, image/png" hidden>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="upload-icon">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <p>Изберете от галерията</p>
+                            <small>JPEG или PNG, макс 10MB</small>
+                        </div>
+                        <div class="photo-preview" id="photoPreview" style="display: none;">
+                            <img id="previewImage" src="" alt="Преглед">
+                            <button type="button" class="remove-photo" id="removePhoto">×</button>
+                        </div>
+                    </div>
+                    <div class="error-message" id="photoError"></div>
+                    
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-next" id="step1Next">Напред</button>
+                    </div>
+                </div>
+                
+                <!-- Стъпка 2: Детайли за фигурата -->
+                <div class="form-step" id="step2">
+                    <h2>Детайли за фигурата</h2>
+                    
+                    <div class="form-group">
+                        <label for="clothesDescription">Описание на облеклото</label>
+                        <textarea id="clothesDescription" rows="4" placeholder="Опишете подробно облеклото, което искате вашата фигура да носи..."></textarea>
+                        <div class="error-message" id="clothesError"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Изберете поза</label>
+                        <div class="pose-container">
+                            <div class="pose-scroll">
+                                <div class="pose-option" data-pose="casual">
+                                    <img src="https://cdn.shopify.com/s/files/1/0842/0933/6585/files/relaxed.png?v=1745407341" alt="Небрежна поза">
+
+                                </div>
+                                <div class="pose-option" data-pose="formal">
+                                    <img src="https://cdn.shopify.com/s/files/1/0842/0933/6585/files/meditation.png?v=1745407342" alt="Формална поза">
+
+                                </div>
+                                <div class="pose-option" data-pose="action">
+                                    <img src="https://cdn.shopify.com/s/files/1/0842/0933/6585/files/hands-on-hips.png?v=1745407342" alt="Динамична поза">
+
+                                </div>
+                                <div class="pose-option" data-pose="sitting">
+                                    <img src="https://cdn.shopify.com/s/files/1/0842/0933/6585/files/arms-crossed.png?v=1745407343" alt="Седяща поза">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="error-message" id="poseError"></div>
+                    </div>
+                    
+                    
+                    
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-prev" data-step="1">Назад</button>
+                        <button type="button" class="btn btn-next" id="step2Next">Напред</button>
+                    </div>
+                </div>
+                
+                <!-- Стъпка 3: Преглед -->
+                <div class="form-step" id="step3">
+                    <h2>Преглед на вашата фигура</h2>
+                    
+                    <div class="preview-container">
+                        <div class="preview-placeholder" id="previewPlaceholder">
+                            <button type="button" class="btn btn-generate" id="generatePreview">Генерирай преглед</button>
+                        </div>
+                        <div class="preview-loading" id="previewLoading" style="display: none;">
+                            <div class="spinner"></div>
+                            <p>Генериране на преглед...</p>
+                        </div>
+                        <div class="preview-result" id="previewResult" style="display: none;">
+                            <img id="figurePreview" src="" alt="Преглед на фигурата">
+                        </div>
+                        <div class="preview-error" id="previewErrorContainer" style="display: none;">
+                            <p id="previewError"></p>
+                            <button type="button" class="btn btn-retry" id="retryPreview">Опитай отново</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-prev" data-step="2">Назад</button>
+                        <button type="button" class="btn btn-next" id="step3Next">Напред</button>
+                    </div>
+                </div>
+                
+                <!-- Стъпка 4: Контакт и доставка -->
+                <div class="form-step" id="step4">
+                    <h2>Контакт и доставка</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Пълно име</label>
+                            <input type="text" id="fullName" placeholder="Вашето пълно име">
+                            <div class="error-message" id="nameError"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Имейл адрес</label>
+                            <input type="email" id="email" placeholder="Вашият имейл адрес">
+                            <div class="error-message" id="emailError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Телефонен номер</label>
+                            <input type="tel" id="phone" placeholder="Вашият телефонен номер">
+                            <div class="error-message" id="phoneError"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="address">Адрес</label>
+                            <input type="text" id="address" placeholder="Вашият адрес">
+                            <div class="error-message" id="addressError"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="country">Държава</label>
+                            <input type="text" id="country" placeholder="Вашата държава">
+                            <div class="error-message" id="countryError"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">Град</label>
+                            <input type="text" id="city" placeholder="Вашият град">
+                            <div class="error-message" id="cityError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="postcode">Пощенски код</label>
+                            <input type="text" id="postcode" placeholder="Вашият пощенски код">
+                            <div class="error-message" id="postcodeError"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Изберете размер</label>
+                        <div class="size-options">
+                            <div class="size-option" data-size="10" data-price="149">
+                                <h3>10см</h3>
+                                <p>149.00 лв</p>
+                            </div>
+                            <div class="size-option" data-size="12" data-price="179">
+                                <h3>12см</h3>
+                                <p>179.00 лв</p>
+                            </div>
+                            <div class="size-option" data-size="15" data-price="199">
+                                <h3>15см</h3>
+                                <p>199.00</p>
+                            </div>
+                        </div>
+                        <div class="error-message" id="sizeError"></div>
+                    </div>
+                    
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-prev" data-step="3">Назад</button>
+                        <button type="submit" class="btn btn-submit" id="submitForm">Изпрати поръчка</button>
+                    </div>
+                </div>
+            </form>
+            
+            <!-- Обработка на изпращането -->
+            <div class="submission-container" style="display: none;" id="submissionContainer">
+                <div class="submission-loading" id="submissionLoading">
+                    <div class="spinner"></div>
+                    <p>Обработваме вашата поръчка...</p>
+                </div>
+                <div class="submission-success" id="submissionSuccess" style="display: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="success-icon">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    <h2>Поръчката е изпратена успешно!</h2>
+                    <p>Благодарим ви за поръчката. Ще се свържем с вас скоро с повече подробности.</p>
+                </div>
+                <div class="submission-error" id="submissionError" style="display: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="error-icon">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                    <h2>Нещо се обърка</h2>
+                    <p id="errorMessage">Възникна грешка при изпращането на вашата поръчка. Моля, опитайте отново.</p>
+                    <button type="button" class="btn btn-retry" id="retrySubmission">Опитай отново</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
