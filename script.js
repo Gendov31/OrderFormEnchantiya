@@ -46,12 +46,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Validate file type and size
                 if (!['image/jpeg', 'image/png'].includes(file.type)) {
-                    showError(photoError, 'Please upload a JPEG or PNG file');
+                    showError(photoError, 'Моля, качете JPEG или PNG файл.');
                     return;
                 }
                 
                 if (file.size > 10 * 1024 * 1024) { // 10MB
-                    showError(photoError, 'File size must be less than 10MB');
+                    showError(photoError, 'Размерът на файла трябва да бъде по-малък от 10MB.');
                     return;
                 }
                 
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Error generating preview:', error);
                 previewLoading.style.display = 'none';
                 previewErrorContainer.style.display = 'flex';
-                previewError.textContent = 'Failed to generate preview. Please try again.';
+                previewError.textContent = 'Не успяхме да генерираме модел. Моля, опитайте отново.';
             }
         });
 
@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const photoError = document.getElementById('photoError');
         
         if (!formData.photo) {
-            showError(photoError, 'Please upload a photo');
+            showError(photoError, 'Моля, качете снимка.');
             return false;
         }
         
@@ -319,12 +319,12 @@ document.addEventListener('DOMContentLoaded', function() {
         let isValid = true;
         
         if (clothesDescription.value.length < 8) {
-            showError(clothesError, 'Description must be at least 8 characters');
+            showError(clothesError, 'Описанието трябва да е поне 8 символа.');
             isValid = false;
         }
         
         if (!formData.pose) {
-            showError(poseError, 'Please select a pose');
+            showError(poseError, 'Моля, изберете поза.');
             isValid = false;
         }
         
@@ -339,13 +339,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function validateStep4() {
         const fields = [
-            { value: formData.contact.fullName, errorElement: document.getElementById('nameError'), message: 'Please enter your full name' },
-            { value: formData.contact.email, errorElement: document.getElementById('emailError'), message: 'Please enter a valid email address', validator: validateEmail },
-            { value: formData.contact.phone, errorElement: document.getElementById('phoneError'), message: 'Please enter a valid phone number', validator: validatePhone },
-            { value: formData.contact.address, errorElement: document.getElementById('addressError'), message: 'Please enter your address' },
-            { value: formData.contact.country, errorElement: document.getElementById('countryError'), message: 'Please enter your country' },
-            { value: formData.contact.city, errorElement: document.getElementById('cityError'), message: 'Please enter your city' },
-            { value: formData.contact.postcode, errorElement: document.getElementById('postcodeError'), message: 'Please enter your postcode' }
+            { value: formData.contact.fullName, errorElement: document.getElementById('nameError'), message: 'Моля, въведете пълното си име.' },
+            { value: formData.contact.email, errorElement: document.getElementById('emailError'), message: 'Моля, въведете валиден имейл адрес.', validator: validateEmail },
+            { value: formData.contact.phone, errorElement: document.getElementById('phoneError'), message: 'Моля, въведете валиден телефонен номер.', validator: validatePhone },
+            { value: formData.contact.address, errorElement: document.getElementById('addressError'), message: 'Моля, въведете вашия адрес.' },
+            { value: formData.contact.country, errorElement: document.getElementById('countryError'), message: 'Моля, въведете вашата страна.' },
+            { value: formData.contact.city, errorElement: document.getElementById('cityError'), message: 'Моля, въведете вашия град.' },
+            { value: formData.contact.postcode, errorElement: document.getElementById('postcodeError'), message: 'Моля, въведете вашия пощенски код.' }
         ];
         
         let isValid = true;
