@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const stepIndicators = document.querySelectorAll('.step-indicator');
     const progressFill = document.getElementById('progressFill');
     let currentStep = 1;
-    let formData = {
+    window.formData = {
         photo: null,
         clothesDescription: '',
         pose: '',
@@ -87,10 +87,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Step 2: Figure Details
         const clothesDescription = document.getElementById('clothesDescription');
         const clothesError = document.getElementById('clothesError');
-        const poseOptions = document.querySelectorAll('.pose-option');
-        const poseError = document.getElementById('poseError');
-        const sizeOptions = document.querySelectorAll('.size-option');
-        const sizeError = document.getElementById('sizeError');
         const step2Next = document.getElementById('step2Next');
 
         clothesDescription.addEventListener('input', () => {
@@ -100,24 +96,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        poseOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                poseOptions.forEach(p => p.classList.remove('selected'));
-                option.classList.add('selected');
-                formData.pose = option.getAttribute('data-pose');
-                hideError(poseError);
-            });
-        });
 
-        sizeOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                sizeOptions.forEach(s => s.classList.remove('selected'));
-                option.classList.add('selected');
-                formData.size = option.getAttribute('data-size');
-                formData.price = parseFloat(option.getAttribute('data-price'));
-                hideError(sizeError);
-            });
-        });
+
 
         step2Next.addEventListener('click', () => {
             if (validateStep2()) {

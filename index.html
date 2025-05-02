@@ -83,22 +83,11 @@
                         <label>Изберете поза</label>
                         <div class="pose-container">
                             <div class="pose-scroll">
-                                <div class="pose-option" data-pose="casual">
-                                    <img src="https://cdn.shopify.com/s/files/1/0842/0933/6585/files/relaxed.png?v=1745407341" alt="Небрежна поза">
+                               
+                                    <!-- Dynamic pose load -->
 
-                                </div>
-                                <div class="pose-option" data-pose="formal">
-                                    <img src="https://cdn.shopify.com/s/files/1/0842/0933/6585/files/meditation.png?v=1745407342" alt="Формална поза">
 
-                                </div>
-                                <div class="pose-option" data-pose="action">
-                                    <img src="https://cdn.shopify.com/s/files/1/0842/0933/6585/files/hands-on-hips.png?v=1745407342" alt="Динамична поза">
 
-                                </div>
-                                <div class="pose-option" data-pose="sitting">
-                                    <img src="https://cdn.shopify.com/s/files/1/0842/0933/6585/files/arms-crossed.png?v=1745407343" alt="Седяща поза">
-
-                                </div>
                             </div>
                         </div>
                         <div class="error-message" id="poseError"></div>
@@ -195,18 +184,9 @@
                     <div class="form-group">
                         <label>Изберете размер</label>
                         <div class="size-options">
-                            <div class="size-option" data-size="10" data-price="149">
-                                <h3>10см</h3>
-                                <p>149.00 лв</p>
-                            </div>
-                            <div class="size-option" data-size="12" data-price="179">
-                                <h3>12см</h3>
-                                <p>179.00 лв</p>
-                            </div>
-                            <div class="size-option" data-size="15" data-price="199">
-                                <h3>15см</h3>
-                                <p>199.00</p>
-                            </div>
+                            
+
+                            
                         </div>
                         <div class="error-message" id="sizeError"></div>
                     </div>
@@ -245,6 +225,10 @@
             </div>
         </div>
     </div>
+
+    <script src="./magic/getposes.js"></script>
+    <script src="./magic/getsizes.js"></script>
+
     <script src="script.js"></script>
 </body>
 </html>
