@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function() {
     // Global variables
     const form = document.getElementById('figureForm');
@@ -96,9 +95,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-
-
-
         step2Next.addEventListener('click', () => {
             if (validateStep2()) {
                 goToStep(3);
@@ -116,33 +112,68 @@ document.addEventListener('DOMContentLoaded', function() {
         const retryPreview = document.getElementById('retryPreview');
         const step3Next = document.getElementById('step3Next');
 
-        generatePreview.addEventListener('click', () => {
+        generatePreview.addEventListener('click', async () => {
             previewPlaceholder.style.display = 'none';
             previewLoading.style.display = 'flex';
             
-            // Simulate API call with 2 second delay
+            // Create and show loading animation
+            const loadingAnimation = document.createElement('div');
+            loadingAnimation.style.position = 'relative';
+            loadingAnimation.style.width = '100%';
+            loadingAnimation.style.height = '100%';
+            
+            const loadingImage = document.createElement('img');
+            loadingImage.src = URL.createObjectURL(formData.photo);
+            loadingImage.style.width = '100%';
+            loadingImage.style.height = '100%';
+            loadingImage.style.objectFit = 'contain';
+            loadingImage.style.filter = 'blur(20px)';
+            loadingImage.style.transition = 'filter 60s linear';
+            
+            loadingAnimation.appendChild(loadingImage);
+            previewLoading.appendChild(loadingAnimation);
+            
+            // Start the unblur animation
             setTimeout(() => {
-                // In a real app, this would be a fetch call to generate a preview
-                const success = Math.random() > 0.3; // 70% success rate for simulation
-                
-                previewLoading.style.display = 'none';
-                
-                if (success) {
-                    // For demo, we'll use the uploaded photo as the "preview"
-                    if (formData.photo) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            figurePreview.src = e.target.result;
-                            formData.preview = e.target.result;
-                        };
-                        reader.readAsDataURL(formData.photo);
-                    }
-                    previewResult.style.display = 'block';
-                } else {
-                    previewError.textContent = 'Unable to generate preview. Please try again.';
-                    previewErrorContainer.style.display = 'flex';
+                loadingImage.style.filter = 'blur(0px)';
+            }, 100);
+            
+            // Prepare form data for the API request
+            const formDataToSend = new FormData();
+            formDataToSend.append('PersonPhoto', formData.photo);
+            formDataToSend.append('pose', formData.pose);
+            formDataToSend.append('clothesDescription', formData.clothesDescription);
+
+            try {
+                const response = await fetch('https://hook.eu2.make.com/6nfz7nefo8iyxd22cnzi5gyk6ex7bdnv', {
+                    method: 'POST',
+                    body: formDataToSend
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
                 }
-            }, 2000);
+
+                const result = await response.json();
+                const imageUrl = `data:image/png;base64,${result.image}`;
+
+                FormData.preview = imageUrl;
+            
+                // Update UI
+                previewLoading.style.display = 'none';
+                previewResult.style.display = 'flex';
+            
+                // Display image
+                const img = document.getElementById("figurePreview");
+                img.src = imageUrl;
+                img.alt = 'Generated Preview';
+            
+            } catch (error) {
+                console.error('Error generating preview:', error);
+                previewLoading.style.display = 'none';
+                previewErrorContainer.style.display = 'flex';
+                previewError.textContent = 'Failed to generate preview. Please try again.';
+            }
         });
 
         retryPreview.addEventListener('click', () => {
@@ -296,7 +327,6 @@ document.addEventListener('DOMContentLoaded', function() {
             showError(poseError, 'Please select a pose');
             isValid = false;
         }
-        
         
         return isValid;
     }
