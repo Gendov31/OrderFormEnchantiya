@@ -264,9 +264,8 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             
             if (validateStep4()) {
-               formContainer.style.display = 'none';
-               submissionContainer.style.display = 'block';
-               submissionLoading.style.display = 'flex';
+               submitForm.disabled = true;
+               submitForm.textContent = "Зарежда..";
 
 
               async function submitFinalOrder() {
