@@ -5,13 +5,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const stepIndicators = document.querySelectorAll('.step-indicator');
     const progressFill = document.getElementById('progressFill');
     let currentStep = 1;
+    let PreviewFile = '';
     window.formData = {
-        photo: null,
+        personPhoto:{
+            file:'',
+            name:'',
+            file_b64:''
+        },
         clothesDescription: '',
         pose: '',
         size: '',
         price: 0,
-        preview: null,
+        previewPhoto: {
+            file_b64:"",
+            file:'',
+            name:""
+        },
         contact: {
             fullName: '',
             email: '',
@@ -25,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize form
     initForm();
+
 
     function initForm() {
         // Step 1: Photo Upload
@@ -55,11 +65,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
                 
-                formData.photo = file;
+                PreviewFile = file;
+               
                 const reader = new FileReader();
                 
+                
                 reader.onload = (e) => {
-                    previewImage.src = e.target.result;
+                    
+                    const base64DataUrl = e.target.result;
+                    formData.personPhoto.file = file;
+                    formData.personPhoto.file_b64 = base64DataUrl;
+                    formData.personPhoto.name = file.name;
+        
+                    previewImage.src = base64DataUrl;
                     photoUpload.style.display = 'none';
                     photoPreview.style.display = 'block';
                     hideError(photoError);
@@ -72,7 +90,10 @@ document.addEventListener('DOMContentLoaded', function() {
         removePhoto.addEventListener('click', (e) => {
             e.stopPropagation();
             photoInput.value = '';
-            formData.photo = null;
+            formData.personPhoto = {
+                file: '',
+                name: ''
+            };
             photoPreview.style.display = 'none';
             photoUpload.style.display = 'flex';
         });
@@ -123,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
             loadingAnimation.style.height = '100%';
             
             const loadingImage = document.createElement('img');
-            loadingImage.src = URL.createObjectURL(formData.photo);
+            loadingImage.src = URL.createObjectURL(PreviewFile);
             loadingImage.style.width = '100%';
             loadingImage.style.height = '100%';
             loadingImage.style.objectFit = 'contain';
@@ -140,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Prepare form data for the API request
             const formDataToSend = new FormData();
-            formDataToSend.append('PersonPhoto', formData.photo);
+            formDataToSend.append('PersonPhoto', formData.personPhoto.file);
             formDataToSend.append('pose', formData.pose);
             formDataToSend.append('clothesDescription', formData.clothesDescription);
 
@@ -157,7 +178,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 const result = await response.json();
                 const imageUrl = `data:image/png;base64,${result.image}`;
 
-                FormData.preview = imageUrl;
+                // Convert base64 to File object
+                const base64Response = await fetch(imageUrl);
+                const blob = await base64Response.blob();
+                const file = new File([blob], Math.random().toString(36).substring(7)+".png", { type: 'image/png' });
+
+                formData.previewPhoto.file_b64 = imageUrl;
+                formData.previewPhoto.name = file.name;
+                formData.previewPhoto.file = file;
             
                 // Update UI
                 previewLoading.style.display = 'none';
@@ -236,42 +264,58 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             
             if (validateStep4()) {
-                formContainer.style.display = 'none';
-                submissionContainer.style.display = 'block';
-                submissionLoading.style.display = 'flex';
-                
-                // Simulate webhook submission with 3 second delay
-                setTimeout(() => {
-                    console.log('Form submission data:', formData);
-                    
-                    // In a real app, this would be a fetch call to a webhook
-                    // fetch('https://hook.make.com/yourwebhook', {
-                    //     method: 'POST',
-                    //     headers: { 'Content-Type': 'application/json' },
-                    //     body: JSON.stringify(formData)
-                    // })
-                    // .then(response => {
-                    //     submissionLoading.style.display = 'none';
-                    //     submissionSuccess.style.display = 'flex';
-                    // })
-                    // .catch(error => {
-                    //     submissionLoading.style.display = 'none';
-                    //     errorMessage.textContent = 'Error: ' + error.message;
-                    //     submissionError.style.display = 'flex';
-                    // });
-                    
-                    // For this demo, we'll simulate a success most of the time
-                    const success = Math.random() > 0.2; // 80% success rate
-                    
-                    submissionLoading.style.display = 'none';
-                    
-                    if (success) {
-                        submissionSuccess.style.display = 'flex';
-                    } else {
-                        errorMessage.textContent = 'Error connecting to server. Please try again.';
-                        submissionError.style.display = 'flex';
-                    }
-                }, 3000);
+               submitForm.disabled = true;
+               submitForm.textContent = "Зарежда..";
+
+
+              async function submitFinalOrder() {
+                try {
+                    const fd = new FormData();
+                    fd.append('PersonPhoto', formData.personPhoto.file); // the raw File object
+                    fd.append('FileName_PersonPhoto', formData.personPhoto.name);
+                    fd.append('pose', formData.pose);
+                    fd.append('clothesDescription', formData.clothesDescription);
+                    fd.append('size', formData.size);
+                    fd.append('price', formData.price);
+                    fd.append('fullName', formData.contact.fullName);
+                    fd.append('email', formData.contact.email);
+                    fd.append('phone', formData.contact.phone);
+                    fd.append('address', formData.contact.address);
+                    fd.append('country', formData.contact.country);
+                    fd.append('city', formData.contact.city);
+                    fd.append('postcode', formData.contact.postcode);
+                    fd.append('PreviewImage', formData.previewPhoto.file); // the raw File object
+              
+                  // Send to Make
+                  const response = await fetch('https://hook.eu2.make.com/o8j4cnt7nk9b7ix52slmaw6kspqvavqy', {
+                    method: 'POST',
+                    body: fd,
+                  });
+              
+                  if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                  }
+              
+                  const result = await response.json()
+                  if (result.checkoutUrl) {
+                    window.location.href = result.checkoutUrl;
+                  }
+              
+                  // UI feedback
+                  submissionLoading.style.display = 'none';
+                  submissionSuccess.style.display = 'flex';
+                } catch (error) {
+                  console.error('Order submission failed:', error);
+                  submissionLoading.style.display = 'none';
+                  submissionError.style.display = 'flex';
+                  errorMessage.textContent = 'Something went wrong while placing your order.';
+                }
+              }
+        
+              submitFinalOrder()
+
+
+
             }
         });
 
@@ -303,7 +347,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function validateStep1() {
         const photoError = document.getElementById('photoError');
         
-        if (!formData.photo) {
+  
+        if (!formData.personPhoto.file) {
             showError(photoError, 'Моля, качете снимка.');
             return false;
         }

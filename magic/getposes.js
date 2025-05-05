@@ -34,7 +34,7 @@ window.onload = async function () {
       option.addEventListener('click', () => {
           poseOptions.forEach(p => p.classList.remove('selected'));
           option.classList.add('selected');
-          window.formData.pose = option.getAttribute('data-pose');
+          window.formData.pose = option.querySelector('img').dataset.prompt;
           hideError(poseError);
       });
   });
