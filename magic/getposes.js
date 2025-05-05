@@ -1,4 +1,6 @@
-window.onload = async function () {
+document.addEventListener('DOMContentLoaded', async () => {
+
+
     const container = document.querySelector('.pose-scroll');
   
     try {
@@ -39,4 +41,4 @@ window.onload = async function () {
       });
   });
 
-  };
+});

@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         clothesDescription: '',
         pose: '',
+        imgStyle: '',
         size: '',
         price: 0,
         previewPhoto: {
@@ -164,6 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
             formDataToSend.append('PersonPhoto', formData.personPhoto.file);
             formDataToSend.append('pose', formData.pose);
             formDataToSend.append('clothesDescription', formData.clothesDescription);
+            formDataToSend.append('imgStyle', formData.imgStyle);
 
             try {
                 const response = await fetch('https://hook.eu2.make.com/6nfz7nefo8iyxd22cnzi5gyk6ex7bdnv', {
