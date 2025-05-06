@@ -345,6 +345,13 @@ input:focus, textarea:focus, select:focus {
     height: 100%;
     object-fit: cover;
 }
+.preview-info p {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--color-text);
+}
 
 .remove-photo {
     position: absolute;

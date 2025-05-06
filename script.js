@@ -128,7 +128,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const previewPlaceholder = document.getElementById('previewPlaceholder');
         const previewLoading = document.getElementById('previewLoading');
         const previewResult = document.getElementById('previewResult');
-        const figurePreview = document.getElementById('figurePreview');
+        const previewInfo = document.getElementById('previewInfo');
+
         const previewErrorContainer = document.getElementById('previewErrorContainer');
         const previewError = document.getElementById('previewError');
         const retryPreview = document.getElementById('retryPreview');
@@ -192,6 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Update UI
                 previewLoading.style.display = 'none';
                 previewResult.style.display = 'flex';
+                previewInfo.style.display = "flex";
             
                 // Display image
                 const img = document.getElementById("figurePreview");
@@ -362,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const clothesDescription = document.getElementById('clothesDescription');
         const clothesError = document.getElementById('clothesError');
         const poseError = document.getElementById('poseError');
-        const sizeError = document.getElementById('sizeError');
+        const styleError = document.getElementById('styleError');
         let isValid = true;
         
         if (clothesDescription.value.length < 8) {
@@ -372,6 +374,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (!formData.pose) {
             showError(poseError, 'Моля, изберете поза.');
+            isValid = false;
+        }
+        if (!formData.imgStyle) {
+            showError(styleError, 'Моля, изберете стил.');
             isValid = false;
         }
         
