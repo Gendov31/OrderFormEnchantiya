@@ -37,6 +37,13 @@ document.addEventListener('DOMContentLoaded', function() {
     initForm();
 
 
+    const getUserIP = async () => {
+        const res = await fetch("https://api.ipify.org?format=json");
+        const data = await res.json();
+        return data.ip;
+      };
+
+
     function initForm() {
         // Step 1: Photo Upload
         const photoUpload = document.getElementById('photoUpload');
@@ -160,6 +167,8 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 loadingImage.style.filter = 'blur(0px)';
             }, 100);
+
+            const ip = await getUserIP();
             
             // Prepare form data for the API request
             const formDataToSend = new FormData();
@@ -167,6 +176,8 @@ document.addEventListener('DOMContentLoaded', function() {
             formDataToSend.append('pose', formData.pose);
             formDataToSend.append('clothesDescription', formData.clothesDescription);
             formDataToSend.append('imgStyle', formData.imgStyle);
+            formDataToSend.append("ip", ip);
+
 
             try {
                 const response = await fetch('https://hook.eu2.make.com/6nfz7nefo8iyxd22cnzi5gyk6ex7bdnv', {
@@ -179,6 +190,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 const result = await response.json();
+                
+                // Check if user is banned
+                if (result.banned === "true") {
+                    previewLoading.style.display = 'none';
+                    previewErrorContainer.style.display = 'flex';
+                    previewError.textContent = 'Вашият IP адрес е блокиран. Моля, свържете се с нас за повече информация. 0897858684';
+                    return;
+                }
+
                 const imageUrl = `data:image/png;base64,${result.image}`;
 
                 // Convert base64 to File object
