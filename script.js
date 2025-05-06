@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize translations
+    window.i18n.updateLanguage();
+
     // Global variables
     const form = document.getElementById('figureForm');
     const steps = document.querySelectorAll('.form-step');
@@ -17,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
         imgStyle: '',
         size: '',
         price: 0,
+        currency:"",
         previewPhoto: {
             file_b64:"",
             file:'',
@@ -35,6 +39,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize form
     initForm();
+
+    // Set currency based on language
+    const currentLang = window.i18n.getCurrentLanguage();
+    switch(currentLang) {
+        case 'de':
+            formData.currency = 'EUR';
+            break;
+        case 'en': 
+            formData.currency = 'GBP';
+            break;
+        default:
+            formData.currency = 'BGN'; // Default Bulgarian currency
+            break;
+    }
 
 
     const getUserIP = async () => {
@@ -64,12 +82,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Validate file type and size
                 if (!['image/jpeg', 'image/png'].includes(file.type)) {
-                    showError(photoError, 'Моля, качете JPEG или PNG файл.');
+                    showError(photoError, 'photoError');
                     return;
                 }
                 
                 if (file.size > 10 * 1024 * 1024) { // 10MB
-                    showError(photoError, 'Размерът на файла трябва да бъде по-малък от 10MB.');
+                    showError(photoError, 'photoError');
                     return;
                 }
                 
@@ -195,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (result.banned === "true") {
                     previewLoading.style.display = 'none';
                     previewErrorContainer.style.display = 'flex';
-                    previewError.textContent = 'Вашият IP адрес е блокиран. Моля, свържете се с нас за повече информация. 0897858684';
+                    previewError.textContent = window.i18n.t('bannedMessage');
                     return;
                 }
 
@@ -308,7 +326,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     fd.append('country', formData.contact.country);
                     fd.append('city', formData.contact.city);
                     fd.append('postcode', formData.contact.postcode);
-                    fd.append('PreviewImage', formData.previewPhoto.file); // the raw File object
+                    fd.append('PreviewImage', formData.previewPhoto.file);
+                    fd.append('currency', formData.currency);
+
+                     // the raw File object
               
                   // Send to Make
                   const response = await fetch('https://hook.eu2.make.com/o8j4cnt7nk9b7ix52slmaw6kspqvavqy', {
@@ -371,9 +392,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function validateStep1() {
         const photoError = document.getElementById('photoError');
         
-  
         if (!formData.personPhoto.file) {
-            showError(photoError, 'Моля, качете снимка.');
+            showError(photoError, 'photoError');
             return false;
         }
         
@@ -388,16 +408,16 @@ document.addEventListener('DOMContentLoaded', function() {
         let isValid = true;
         
         if (clothesDescription.value.length < 8) {
-            showError(clothesError, 'Описанието трябва да е поне 8 символа.');
+            showError(clothesError, 'clothesError');
             isValid = false;
         }
         
         if (!formData.pose) {
-            showError(poseError, 'Моля, изберете поза.');
+            showError(poseError, 'poseError');
             isValid = false;
         }
         if (!formData.imgStyle) {
-            showError(styleError, 'Моля, изберете стил.');
+            showError(styleError, 'styleError');
             isValid = false;
         }
         
@@ -412,13 +432,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function validateStep4() {
         const fields = [
-            { value: formData.contact.fullName, errorElement: document.getElementById('nameError'), message: 'Моля, въведете пълното си име.' },
-            { value: formData.contact.email, errorElement: document.getElementById('emailError'), message: 'Моля, въведете валиден имейл адрес.', validator: validateEmail },
-            { value: formData.contact.phone, errorElement: document.getElementById('phoneError'), message: 'Моля, въведете валиден телефонен номер.', validator: validatePhone },
-            { value: formData.contact.address, errorElement: document.getElementById('addressError'), message: 'Моля, въведете вашия адрес.' },
-            { value: formData.contact.country, errorElement: document.getElementById('countryError'), message: 'Моля, въведете вашата страна.' },
-            { value: formData.contact.city, errorElement: document.getElementById('cityError'), message: 'Моля, въведете вашия град.' },
-            { value: formData.contact.postcode, errorElement: document.getElementById('postcodeError'), message: 'Моля, въведете вашия пощенски код.' }
+            { value: formData.contact.fullName, errorElement: document.getElementById('nameError'), message: 'nameError' },
+            { value: formData.contact.email, errorElement: document.getElementById('emailError'), message: 'emailError', validator: validateEmail },
+            { value: formData.contact.phone, errorElement: document.getElementById('phoneError'), message: 'phoneError', validator: validatePhone },
+            { value: formData.contact.address, errorElement: document.getElementById('addressError'), message: 'addressError' },
+            { value: formData.contact.country, errorElement: document.getElementById('countryError'), message: 'countryError' },
+            { value: formData.contact.city, errorElement: document.getElementById('cityError'), message: 'cityError' },
+            { value: formData.contact.postcode, errorElement: document.getElementById('postcodeError'), message: 'postcodeError' }
         ];
         
         let isValid = true;
@@ -450,7 +470,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function showError(errorElement, message) {
-        errorElement.textContent = message;
+        errorElement.textContent = window.i18n.t(message);
         errorElement.style.display = 'block';
     }
 

@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   
           const img = document.createElement('img');
           img.src = imageUrl;
-
   
           div.appendChild(img);
           container.appendChild(div);
@@ -34,8 +33,9 @@ document.addEventListener('DOMContentLoaded', async () => {
           styleOptions.forEach(p => p.classList.remove('selected'));
           option.classList.add('selected');
           window.formData.imgStyle = option.dataset.name;
-          hideError(styleError);
+          if (styleError) {
+              styleError.style.display = 'none';
+          }
       });
-  });
-
+    });
 });
