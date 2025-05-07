@@ -8,9 +8,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       const data = await response.json();
   
       data.forEach(item => {
-        const name = item.fields?.Name || 'unknown';
-        const prompt = item.fields?.Prompt || '';
-        const imageUrl = item.fields?.Image?.[0]?.url || '';
+        const name = item.name || 'unknown';
+        const imageUrl = "http://noco.enchantiya.com/" + item.image || '';
   
         if (imageUrl) {
           const div = document.createElement('div');
@@ -18,9 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           div.dataset.pose = name;
   
           const img = document.createElement('img');
-          img.src = imageUrl;
-          img.dataset.prompt = prompt;
-  
+          img.src = imageUrl;  
           div.appendChild(img);
           container.appendChild(div);
         }
@@ -36,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       option.addEventListener('click', () => {
           poseOptions.forEach(p => p.classList.remove('selected'));
           option.classList.add('selected');
-          window.formData.pose = option.querySelector('img').dataset.prompt;
+          window.formData.pose = option.dataset.pose;
           hideError(poseError);
       });
   });

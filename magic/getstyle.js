@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       const data = await response.json();
   
       data.forEach(item => {
-        const name = item.fields?.Name || 'unknown';
-        const imageUrl = item.fields?.Image?.[0]?.url || '';
+        const name = item.name || 'unknown';
+        const imageUrl = "http://noco.enchantiya.com/" + item.image || '';
   
         if (imageUrl) {
           const div = document.createElement('div');

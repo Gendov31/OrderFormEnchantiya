@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
             try {
-                const response = await fetch('https://hook.eu2.make.com/6nfz7nefo8iyxd22cnzi5gyk6ex7bdnv', {
+                const response = await fetch('https://primary-production-5c317.up.railway.app/webhook/3353e23f-ec6e-4eae-8cee-e25e8d254f8b', {
                     method: 'POST',
                     body: formDataToSend
                 });
@@ -307,7 +307,14 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (validateStep4()) {
                submitForm.disabled = true;
-               submitForm.textContent = "Зарежда..";
+               let loadingPercent = 1;
+               const loadingInterval = setInterval(() => {
+                   loadingPercent++;
+                   submitForm.textContent = `Loading ${loadingPercent}%`;
+                   if (loadingPercent >= 100) {
+                       clearInterval(loadingInterval);
+                   }
+               }, 50); // 5000ms / 100 steps = 50ms per step
 
 
               async function submitFinalOrder() {
@@ -332,7 +339,7 @@ document.addEventListener('DOMContentLoaded', function() {
                      // the raw File object
               
                   // Send to Make
-                  const response = await fetch('https://hook.eu2.make.com/o8j4cnt7nk9b7ix52slmaw6kspqvavqy', {
+                  const response = await fetch('https://primary-production-5c317.up.railway.app/webhook/fa49284e-20c0-46d9-931a-d3f52867ebcb', {
                     method: 'POST',
                     body: fd,
                   });

@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         // Send to webhook
-        fetch('https://hook.eu2.make.com/e3y6ili9rcyg90unrml3434bdo327nja', {
+        fetch('https://primary-production-5c317.up.railway.app/webhook/a02b8972-2111-4412-af4c-1279ed9e0e3a', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

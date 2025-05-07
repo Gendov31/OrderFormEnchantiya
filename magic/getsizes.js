@@ -61,7 +61,7 @@ window.addEventListener('load', async function () {
       sizeOptions.forEach(s => s.classList.remove('selected'));
       option.classList.add('selected');
       window.formData.size = option.getAttribute('data-size');
-      window.formData.price = parseFloat(option.getAttribute('data-price'));
+      window.formData.price = Number(option.getAttribute('data-price'));
       if (sizeError) {
         sizeError.style.display = 'none';
       }
