@@ -292,6 +292,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 goToStep(targetStep);
             });
         });
+//payment options 
+
+
+
 
         // Form submission
         const submitForm = document.getElementById('submitForm');
@@ -365,7 +369,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   errorMessage.textContent = 'Something went wrong while placing your order.';
                 }
               }
-        
+              
               submitFinalOrder()
 
 
@@ -520,10 +524,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Scroll to top of form
         document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
     }
+
 });
 
 
 isCodChosen = false
+
 function selectPaymentMethod(method) {
     const options = document.querySelectorAll('.payment-options .payment-option');
 
@@ -533,6 +539,7 @@ function selectPaymentMethod(method) {
 
     if (method === 'card') {
         document.getElementById('paymentCard').classList.add('selected');
+
         formData.paymentType = "card"
         if(isCodChosen==true){
             formData.price-=19.90
@@ -541,6 +548,7 @@ function selectPaymentMethod(method) {
 
     } else if (method === 'cod') {
         formData.paymentType = "cod"
+
         document.getElementById('paymentCOD').classList.add('selected');
     }
 
@@ -567,15 +575,18 @@ function updateTotalPrice() {
     }
 
     let finalPrice = basePrice;
+
     // Only add COD fee if it hasn't been added before
     if (paymentMethod === 'cod' && isCodChosen==false) {
         finalPrice += 19.90;
         formData.price += 19.90
         isCodChosen = true
+
     }
 
     totalAmount.textContent = `${finalPrice.toFixed(2)} лв.`;
     totalBox.style.display = 'flex';
+
 }
 
 // Optional: auto-select the first size on page load
@@ -585,3 +596,4 @@ window.addEventListener('DOMContentLoaded', () => {
         firstSize.click();
     }
 });
+

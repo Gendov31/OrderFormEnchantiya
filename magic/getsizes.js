@@ -67,9 +67,11 @@ window.addEventListener('load', async function () {
         sizeError.style.display = 'none';
       }
 
+
       if (typeof updateTotalPrice === 'function') {
         updateTotalPrice();
       }
+
 
     });
   });
