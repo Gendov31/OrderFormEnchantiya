@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
         imgStyle: '',
         size: '',
         price: 0,
+        paymentType:'',
         currency:"",
         previewPhoto: {
             file_b64:"",
@@ -339,6 +340,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     fd.append('postcode', formData.contact.postcode);
                     fd.append('PreviewImage', formData.previewPhoto.file);
                     fd.append('currency', formData.currency);
+                    fd.append('paymentType', formData.paymentType);
 
                      // the raw File object
               
@@ -522,8 +524,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Scroll to top of form
         document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
     }
-    
+
 });
+
+
+isCodChosen = false
 
 function selectPaymentMethod(method) {
     const options = document.querySelectorAll('.payment-options .payment-option');
@@ -534,7 +539,16 @@ function selectPaymentMethod(method) {
 
     if (method === 'card') {
         document.getElementById('paymentCard').classList.add('selected');
+
+        formData.paymentType = "card"
+        if(isCodChosen==true){
+            formData.price-=19.90
+            isCodChosen = false
+        }
+
     } else if (method === 'cod') {
+        formData.paymentType = "cod"
+
         document.getElementById('paymentCOD').classList.add('selected');
     }
 
@@ -562,10 +576,24 @@ function updateTotalPrice() {
 
     let finalPrice = basePrice;
 
-    if (paymentMethod === 'cod') {
+    // Only add COD fee if it hasn't been added before
+    if (paymentMethod === 'cod' && isCodChosen==false) {
         finalPrice += 19.90;
+        formData.price += 19.90
+        isCodChosen = true
+
     }
 
     totalAmount.textContent = `${finalPrice.toFixed(2)} лв.`;
     totalBox.style.display = 'flex';
+
 }
+
+// Optional: auto-select the first size on page load
+window.addEventListener('DOMContentLoaded', () => {
+    const firstSize = document.querySelector('.size-option[data-price]');
+    if (firstSize) {
+        firstSize.click();
+    }
+});
+

@@ -51,12 +51,17 @@
     </noscript>
     <!-- End Meta Pixel Code -->
 
+    
+    <link rel="stylesheet"
+                        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
 </head>
 
 <body>
     <div class="container">
+
         <!-- Language Selection Modal  
+
         <div id="languageModal" class="modal">
             <div class="modal-content">
                 <h2>Изберете език / Choose language / Sprache wählen</h2>
@@ -276,9 +281,10 @@
                         <div class="error-message" id="sizeError"></div>
                     </div>
 
-                    <!-- payment -->
-                    <link rel="stylesheet"
-                        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+
+                    <!-- Payment Method -->
+
 
                     <div class="form-group">
                         <input type="hidden" id="selectedPaymentMethod" name="payment_method" value="card">
@@ -302,18 +308,23 @@
                             </div>
                             <div class="error-message" id="paymentError"></div>
                         </div>
+
+                  
+
+
                         <!-- total here -->
                         <div class="total-price-box" id="totalPriceBox" style="display: none;">
                             <span class="total-label">Обща Цена: + доставка</span>
                             <span class="total-amount" id="totalAmount">0.00 лв.</span>
                         </div>
-                        <!-- Navigation -->
-                        <div class="form-navigation">
-                            <button type="button" class="btn btn-prev" data-step="3"
-                                data-i18n="previous">Previous</button>
-                            <button type="submit" class="btn btn-submit" id="submitForm" data-i18n="submit">Submit
-                                Order</button>
-                        </div>
+
+
+
+                    <!-- Navigation -->
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-prev" data-step="3" data-i18n="previous">Previous</button>
+                        <button type="submit" class="btn btn-submit" id="submitForm" data-i18n="submit">Submit Order</button>
+
                     </div>
             </form>
 
