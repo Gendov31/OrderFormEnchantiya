@@ -47,11 +47,12 @@
     </noscript>
     <!-- End Meta Pixel Code -->
     
-
+    <link rel="stylesheet"
+                        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
     <div class="container">
-        <!-- Language Selection Modal -->
+        <!-- Language Selection Modal 
         <div id="languageModal" class="modal">
             <div class="modal-content">
                 <h2>Изберете език / Choose language / Sprache wählen</h2>
@@ -71,7 +72,7 @@
                 </div>
             </div>
         </div>
-
+-->
         <header class="form-header">
             <div class="logo-container">
                 <img src="https://cdn.shopify.com/s/files/1/0842/0933/6585/files/3VBtJCtx5KR74ureTaiHPHDUmps.avif?v=1745497220" alt="Logo" class="logo">
@@ -269,7 +270,41 @@
                         </div>
                         <div class="error-message" id="sizeError"></div>
                     </div>
-                
+
+
+                    <!-- Payment Method -->
+
+                    <div class="form-group">
+                        <input type="hidden" id="selectedPaymentMethod" name="payment_method" value="card">
+                        <label for="selectMethod">Начин на Плащане</label>
+                        <div class="payment-options">
+                            <div class="payment-option" id="paymentCard" onclick="selectPaymentMethod('card')">
+                                <i class="fas fa-credit-card fa-2x"></i>
+                                <h3>Карта</h3>
+                                <p>Плати с дебитна или кредитна карта</p>
+                            </div>
+                            <div class="payment-option" id="paymentCOD" onclick="selectPaymentMethod('cod')">
+                                <div class="payment-header">
+                                    <i class="fas fa-money-bill-wave fa-2x"></i>
+                                    <div class="tooltip-container">
+                                        <i class="fas fa-question-circle tooltip-icon"></i>
+                                        <div class="tooltip-text">Работим ръчно и с много сърце. Ако някой не вземе пратката си, всичко отива на вятъра. Таксата е, за да избегнем това.</div>
+                                    </div>
+                                </div>
+                                <h3>Наложен платеж + 19.90 лв.</h3>
+                                <p>Плати при доставка </p>
+                            </div>
+                            <div class="error-message" id="paymentError"></div>
+                        </div>
+                  
+
+                        <!-- total here -->
+                        <div class="total-price-box" id="totalPriceBox" style="display: none;">
+                            <span class="total-label">Обща Цена: + доставка</span>
+                            <span class="total-amount" id="totalAmount">0.00 лв.</span>
+                        </div>
+
+
                     <!-- Navigation -->
                     <div class="form-navigation">
                         <button type="button" class="btn btn-prev" data-step="3" data-i18n="previous">Previous</button>

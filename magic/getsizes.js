@@ -28,8 +28,8 @@ window.addEventListener('load', async function () {
     const currencySymbol = getCurrencySymbol();
 
     data.forEach(item => {
-      const name = item.fields?.Name || '';
-      const price = item.fields?.Price || '';
+      const name = item.Name || '';
+      const price = item.Price || '';
       const numericSize = name.replace(/\D/g, ''); // e.g., "10cm" → "10"
 
       if (name && price) {
@@ -61,10 +61,16 @@ window.addEventListener('load', async function () {
       sizeOptions.forEach(s => s.classList.remove('selected'));
       option.classList.add('selected');
       window.formData.size = option.getAttribute('data-size');
-      window.formData.price = Number(option.getAttribute('data-price'));
+      const basePrice = Number(option.getAttribute('data-price'));
+      window.formData.price = window.formData.paymentType === 'cod' ? basePrice + 19.90 : basePrice;
       if (sizeError) {
         sizeError.style.display = 'none';
       }
+
+      if (typeof updateTotalPrice === 'function') {
+        updateTotalPrice();
+      }
+
     });
   });
 });
