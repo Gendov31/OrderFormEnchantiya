@@ -28,8 +28,8 @@ window.addEventListener('load', async function () {
     const currencySymbol = getCurrencySymbol();
 
     data.forEach(item => {
-      const name = item.fields?.Name || '';
-      const price = item.fields?.Price || '';
+      const name = item.Name || '';
+      const price = item.Price || '';
       const numericSize = name.replace(/\D/g, ''); // e.g., "10cm" → "10"
 
       if (name && price) {
@@ -64,6 +64,9 @@ window.addEventListener('load', async function () {
       window.formData.price = Number(option.getAttribute('data-price'));
       if (sizeError) {
         sizeError.style.display = 'none';
+      }
+      if (typeof updateTotalPrice === 'function') {
+        updateTotalPrice();
       }
     });
   });

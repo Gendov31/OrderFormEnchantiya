@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,49 +10,53 @@
 
 
     <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.
-        parentNode.insertBefore(t,y);
+        (function (c, l, a, r, i, t, y) {
+            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+            y = l.getElementsByTagName(r)[0]; y.
+                parentNode.insertBefore(t, y);
         })(window, document, "clarity", "script", "rc565jpciz");
     </script>
-    
+
     <!-- Meta Pixel Code with Cross-Domain Tracking -->
     <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    
-    // Initialize Pixel with cross-domain tracking
-    fbq('init', '1651771415513191', {
-      autoConfig: true,
-      xfbml: true
-    });
-    
-    // Explicitly enable automatic cross-domain tracking for your domains
-    fbq('set', 'autoConfig', true, '1651771415513191');
-    fbq('set', 'agent', 'tmgoogletagmanager'); // optional if you use GTM
-    
-    // Track page view
-    fbq('track', 'PageView');
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+
+        // Initialize Pixel with cross-domain tracking
+        fbq('init', '1651771415513191', {
+            autoConfig: true,
+            xfbml: true
+        });
+
+        // Explicitly enable automatic cross-domain tracking for your domains
+        fbq('set', 'autoConfig', true, '1651771415513191');
+        fbq('set', 'agent', 'tmgoogletagmanager'); // optional if you use GTM
+
+        // Track page view
+        fbq('track', 'PageView');
     </script>
     <noscript>
-      <img height="1" width="1" style="display:none"
-           src="https://www.facebook.com/tr?id=1651771415513191&ev=PageView&noscript=1"/>
+        <img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=1651771415513191&ev=PageView&noscript=1" />
     </noscript>
     <!-- End Meta Pixel Code -->
-    
+
 
 </head>
+
 <body>
     <div class="container">
-        <!-- Language Selection Modal -->
+        <!-- Language Selection Modal  
         <div id="languageModal" class="modal">
             <div class="modal-content">
                 <h2>Изберете език / Choose language / Sprache wählen</h2>
@@ -71,13 +76,14 @@
                 </div>
             </div>
         </div>
-
+-->
         <header class="form-header">
             <div class="logo-container">
-                <img src="https://cdn.shopify.com/s/files/1/0842/0933/6585/files/3VBtJCtx5KR74ureTaiHPHDUmps.avif?v=1745497220" alt="Logo" class="logo">
+                <img src="https://cdn.shopify.com/s/files/1/0842/0933/6585/files/3VBtJCtx5KR74ureTaiHPHDUmps.avif?v=1745497220"
+                    alt="Logo" class="logo">
             </div>
         </header>
-        
+
         <div class="progress-container">
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
@@ -101,18 +107,21 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="form-container">
             <form id="figureForm">
                 <!-- Step 1: Photo -->
                 <div class="form-step active" id="step1">
                     <h2 data-i18n="uploadPhoto">Upload Your Photo</h2>
-                    <p data-i18n="uploadPhotoDesc">Please upload a clear photo of your face. It will be used to create your custom figure.</p>
-                    
+                    <p data-i18n="uploadPhotoDesc">Please upload a clear photo of your face. It will be used to create
+                        your custom figure.</p>
+
                     <div class="photo-upload-container">
                         <div class="photo-upload" id="photoUpload">
                             <input type="file" id="photoInput" accept="image/jpeg, image/png" hidden>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="upload-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="upload-icon">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="17 8 12 3 7 8"></polyline>
                                 <line x1="12" y1="3" x2="12" y2="15"></line>
@@ -122,26 +131,28 @@
                         </div>
                         <div class="photo-preview" id="photoPreview" style="display: none;">
                             <img id="previewImage" src="" alt="Preview">
-                            <button type="button" class="remove-photo" id="removePhoto" data-i18n="removePhoto">×</button>
+                            <button type="button" class="remove-photo" id="removePhoto"
+                                data-i18n="removePhoto">×</button>
                         </div>
                     </div>
                     <div class="error-message" id="photoError"></div>
-                    
+
                     <div class="form-navigation">
                         <button type="button" class="btn btn-next" id="step1Next" data-i18n="next">Next</button>
                     </div>
                 </div>
-                
+
                 <!-- Step 2: Figure Details -->
                 <div class="form-step" id="step2">
                     <h2 data-i18n="figureDetails">Figure Details</h2>
-                    
+
                     <div class="form-group">
                         <label for="clothesDescription" data-i18n="clothesDescription">Clothes Description</label>
-                        <textarea id="clothesDescription" rows="4" data-i18n-placeholder="clothesDescriptionPlaceholder"></textarea>
+                        <textarea id="clothesDescription" rows="4"
+                            data-i18n-placeholder="clothesDescriptionPlaceholder"></textarea>
                         <div class="error-message" id="clothesError"></div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label data-i18n="selectPose">Select Pose</label>
                         <div class="pose-container">
@@ -160,20 +171,21 @@
                         </div>
                         <div class="error-message" id="styleError"></div>
                     </div>
-                    
+
                     <div class="form-navigation">
                         <button type="button" class="btn btn-prev" data-step="1" data-i18n="previous">Previous</button>
                         <button type="button" class="btn btn-next" id="step2Next" data-i18n="next">Next</button>
                     </div>
                 </div>
-                
+
                 <!-- Step 3: Preview -->
                 <div class="form-step" id="step3">
                     <h2 data-i18n="previewTitle">Preview Your Figure</h2>
-                    
+
                     <div class="preview-container">
                         <div class="preview-placeholder" id="previewPlaceholder">
-                            <button type="button" class="btn btn-generate" id="generatePreview" data-i18n="generatePreview">Generate Preview</button>
+                            <button type="button" class="btn btn-generate" id="generatePreview"
+                                data-i18n="generatePreview">Generate Preview</button>
                         </div>
                         <div class="preview-loading" id="previewLoading" style="display: none;">
                             <div class="spinner"></div>
@@ -183,28 +195,30 @@
                             <img id="figurePreview" src="" alt="Figure Preview">
                         </div>
                         <div class="preview-info" id="previewInfo" style="display: none;">
-                            <p data-i18n="previewInfo">This is how your real, physical 3D figure will look – it will be crafted and hand-painted especially for you!</p>
+                            <p data-i18n="previewInfo">This is how your real, physical 3D figure will look – it will be
+                                crafted and hand-painted especially for you!</p>
                         </div>
                         <div class="preview-error" id="previewErrorContainer" style="display: none;">
                             <p id="previewError"></p>
-                            <button type="button" class="btn btn-retry" id="retryPreview" data-i18n="retryPreview">Try Again</button>
+                            <button type="button" class="btn btn-retry" id="retryPreview" data-i18n="retryPreview">Try
+                                Again</button>
                         </div>
                     </div>
-                    
+
                     <div class="form-navigation">
                         <button type="button" class="btn btn-prev" data-step="2" data-i18n="previous">Previous</button>
                         <button type="button" class="btn btn-next" id="step3Next" data-i18n="next">Next</button>
                     </div>
                 </div>
-                
+
                 <!-- Step 4: Contact & Shipping -->
                 <div class="form-step" id="step4">
                     <h2 data-i18n="contactShipping">Contact & Shipping</h2>
-                
+
                     <!-- Customer Information -->
                     <fieldset class="customer-info">
                         <legend data-i18n="contactInfo">Contact Information</legend>
-                
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="fullName" data-i18n="fullName">Full Name</label>
@@ -212,7 +226,7 @@
                                 <div class="error-message" id="nameError"></div>
                             </div>
                         </div>
-                
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="email" data-i18n="email">Email Address</label>
@@ -226,11 +240,11 @@
                             </div>
                         </div>
                     </fieldset>
-                
+
                     <!-- Shipping Address -->
                     <fieldset class="delivery-info">
                         <legend data-i18n="shippingInfo">Shipping Address</legend>
-                
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="address" data-i18n="address">Address</label>
@@ -238,15 +252,7 @@
                                 <div class="error-message" id="addressError"></div>
                             </div>
                         </div>
-                
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="country" data-i18n="country">Country</label>
-                                <input type="text" id="country" data-i18n-placeholder="country">
-                                <div class="error-message" id="countryError"></div>
-                            </div>
-                        </div>
-                
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="city" data-i18n="city">City</label>
@@ -260,7 +266,7 @@
                             </div>
                         </div>
                     </fieldset>
-                
+
                     <!-- Size -->
                     <div class="form-group">
                         <label data-i18n="selectSize">Select Size</label>
@@ -269,15 +275,48 @@
                         </div>
                         <div class="error-message" id="sizeError"></div>
                     </div>
-                
-                    <!-- Navigation -->
-                    <div class="form-navigation">
-                        <button type="button" class="btn btn-prev" data-step="3" data-i18n="previous">Previous</button>
-                        <button type="submit" class="btn btn-submit" id="submitForm" data-i18n="submit">Submit Order</button>
+
+                    <!-- payment -->
+                    <link rel="stylesheet"
+                        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+                    <div class="form-group">
+                        <input type="hidden" id="selectedPaymentMethod" name="payment_method" value="card">
+                        <label for="selectMethod">Начин на Плащане</label>
+                        <div class="payment-options">
+                            <div class="payment-option" id="paymentCard" onclick="selectPaymentMethod('card')">
+                                <i class="fas fa-credit-card fa-2x"></i>
+                                <h3>Карта</h3>
+                                <p>Плати с дебитна или кредитна карта</p>
+                            </div>
+                            <div class="payment-option" id="paymentCOD" onclick="selectPaymentMethod('cod')">
+                                <div class="payment-header">
+                                    <i class="fas fa-money-bill-wave fa-2x"></i>
+                                    <div class="tooltip-container">
+                                        <i class="fas fa-question-circle tooltip-icon"></i>
+                                        <div class="tooltip-text">Работим ръчно и с много сърце. Ако някой не вземе пратката си, всичко отива на вятъра. Таксата е, за да избегнем това.</div>
+                                    </div>
+                                </div>
+                                <h3>Наложен платеж + 19.90 лв.</h3>
+                                <p>Плати при доставка </p>
+                            </div>
+                            <div class="error-message" id="paymentError"></div>
+                        </div>
+                        <!-- total here -->
+                        <div class="total-price-box" id="totalPriceBox" style="display: none;">
+                            <span class="total-label">Обща Цена: + доставка</span>
+                            <span class="total-amount" id="totalAmount">0.00 лв.</span>
+                        </div>
+                        <!-- Navigation -->
+                        <div class="form-navigation">
+                            <button type="button" class="btn btn-prev" data-step="3"
+                                data-i18n="previous">Previous</button>
+                            <button type="submit" class="btn btn-submit" id="submitForm" data-i18n="submit">Submit
+                                Order</button>
+                        </div>
                     </div>
-                </div>
             </form>
-            
+
             <!-- Submission Processing -->
             <div class="submission-container" style="display: none;" id="submissionContainer">
                 <div class="submission-loading" id="submissionLoading">
@@ -285,22 +324,29 @@
                     <p data-i18n="processingOrder">Processing your order...</p>
                 </div>
                 <div class="submission-success" id="submissionSuccess" style="display: none;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="success-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="success-icon">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                         <polyline points="22 4 12 14.01 9 11.01"></polyline>
                     </svg>
                     <h2 data-i18n="orderSuccess">Order Submitted Successfully!</h2>
-                    <p data-i18n="orderSuccessMessage">Thank you for your order. We will contact you soon with more details.</p>
+                    <p data-i18n="orderSuccessMessage">Thank you for your order. We will contact you soon with more
+                        details.</p>
                 </div>
                 <div class="submission-error" id="submissionError" style="display: none;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="error-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="error-icon">
                         <circle cx="12" cy="12" r="10"></circle>
                         <line x1="15" y1="9" x2="9" y2="15"></line>
                         <line x1="9" y1="9" x2="15" y2="15"></line>
                     </svg>
                     <h2 data-i18n="errorTitle">Something went wrong</h2>
-                    <p id="errorMessage" data-i18n="submissionError">An error occurred while submitting your order. Please try again.</p>
-                    <button type="button" class="btn btn-retry" id="retrySubmission" data-i18n="retrySubmission">Try Again</button>
+                    <p id="errorMessage" data-i18n="submissionError">An error occurred while submitting your order.
+                        Please try again.</p>
+                    <button type="button" class="btn btn-retry" id="retrySubmission" data-i18n="retrySubmission">Try
+                        Again</button>
                 </div>
             </div>
         </div>
@@ -312,4 +358,5 @@
     <script src="./magic/getstyle.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>

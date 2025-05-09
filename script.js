@@ -291,6 +291,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 goToStep(targetStep);
             });
         });
+//payment options 
+
+
+
 
         // Form submission
         const submitForm = document.getElementById('submitForm');
@@ -363,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   errorMessage.textContent = 'Something went wrong while placing your order.';
                 }
               }
-        
+              
               submitFinalOrder()
 
 
@@ -518,4 +522,50 @@ document.addEventListener('DOMContentLoaded', function() {
         // Scroll to top of form
         document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
     }
+    
 });
+
+function selectPaymentMethod(method) {
+    const options = document.querySelectorAll('.payment-options .payment-option');
+
+    options.forEach(option => {
+        option.classList.remove('selected');
+    });
+
+    if (method === 'card') {
+        document.getElementById('paymentCard').classList.add('selected');
+    } else if (method === 'cod') {
+        document.getElementById('paymentCOD').classList.add('selected');
+    }
+
+    const hiddenInput = document.getElementById('selectedPaymentMethod');
+    if (hiddenInput) {
+        hiddenInput.value = method;
+    }
+    if (typeof updateTotalPrice === 'function') {
+        updateTotalPrice();
+    }
+}
+
+
+function updateTotalPrice() {
+    const totalBox = document.getElementById('totalPriceBox');
+    const totalAmount = document.getElementById('totalAmount');
+
+    const basePrice = parseFloat(window.formData.price || 0);
+    const paymentMethod = document.getElementById('selectedPaymentMethod')?.value;
+
+    if (!basePrice || isNaN(basePrice)) {
+        totalBox.style.display = 'none';
+        return;
+    }
+
+    let finalPrice = basePrice;
+
+    if (paymentMethod === 'cod') {
+        finalPrice += 19.90;
+    }
+
+    totalAmount.textContent = `${finalPrice.toFixed(2)} лв.`;
+    totalBox.style.display = 'flex';
+}
