@@ -55,6 +55,8 @@ const translations = {
         countryError: "Моля, въведете вашата държава.",
         cityError: "Моля, въведете вашия град.",
         postcodeError: "Моля, въведете вашия пощенски код.",
+        paymentTypeError:"Моля, изберете начин на плащане.",
+        sizeError:"Моля, изберете размер.",
         submit: "Изпрати поръчка",
         submitting: "Изпращане...",
         processingOrder: "Обработка на вашата поръчка...",
