@@ -451,7 +451,9 @@ document.addEventListener('DOMContentLoaded', function() {
             { value: formData.contact.address, errorElement: document.getElementById('addressError'), message: 'addressError' },
             { value: formData.contact.country, errorElement: document.getElementById('countryError'), message: 'countryError' },
             { value: formData.contact.city, errorElement: document.getElementById('cityError'), message: 'cityError' },
-            { value: formData.contact.postcode, errorElement: document.getElementById('postcodeError'), message: 'postcodeError' }
+            { value: formData.contact.postcode, errorElement: document.getElementById('postcodeError'), message: 'postcodeError' },
+            { value: formData.contact.postcode, errorElement: document.getElementById('sizeError'), message: 'sizeError' },
+            { value: formData.paymentType, errorElement: document.getElementById('paymentError'), message: 'paymentTypeError' }
         ];
         
         let isValid = true;

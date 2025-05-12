@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   
       data.forEach(item => {
         const name = item.name || 'unknown';
-        const imageUrl = "http://noco.enchantiya.com/" + item.image || '';
+        const imageUrl = item.image || '';
   
         if (imageUrl) {
           const div = document.createElement('div');
