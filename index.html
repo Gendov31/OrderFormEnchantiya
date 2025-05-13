@@ -6,8 +6,10 @@
     <title data-i18n="title">Create Your Custom Figure</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+    
+        
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -123,7 +125,7 @@
                         </div>
                         <div class="photo-preview" id="photoPreview" style="display: none;">
                             <img id="previewImage" src="" alt="Preview">
-                            <button type="button" class="remove-photo" id="removePhoto" data-i18n="removePhoto">×</button>
+                            <button type="button" class="remove-photo" id="removePhoto" >×</button>
                         </div>
                     </div>
                     <div class="error-message" id="photoError"></div>
@@ -190,6 +192,12 @@
                             <p id="previewError"></p>
                             <button type="button" class="btn btn-retry" id="retryPreview" data-i18n="retryPreview">Try Again</button>
                         </div>
+                        <div id="reviewsSlider" style="display: none;">
+                            <div class="testimonial-slider swiper">
+                              <div class="swiper-wrapper" id="testimonialWrapper"></div>
+                            </div>
+                          </div>
+                          
                     </div>
                     
                     <div class="form-navigation">
@@ -242,9 +250,9 @@
                 
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="country" data-i18n="country">Country</label>
-                                <input type="text" id="country" data-i18n-placeholder="country">
-                                <div class="error-message" id="countryError"></div>
+                                <label for="country" data-i18n="country" style="display: none;">Country</label>
+                                <input type="text" id="country" data-i18n-placeholder="country" value="bg" style="display: none;">
+                                <div class="error-message" id="countryError" ></div>
                             </div>
                         </div>
                 
@@ -346,5 +354,6 @@
     <script src="./magic/getsizes.js"></script>
     <script src="./magic/getstyle.js"></script>
     <script src="script.js"></script>
+    <script src="./magic/getreview.js"></script>    
 </body>
 </html>

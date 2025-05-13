@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Initialize translations
     window.i18n.updateLanguage();
 
@@ -10,29 +10,29 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentStep = 1;
     let PreviewFile = '';
     window.formData = {
-        personPhoto:{
-            file:'',
-            name:'',
-            file_b64:''
+        personPhoto: {
+            file: '',
+            name: '',
+            file_b64: ''
         },
         clothesDescription: '',
         pose: '',
         imgStyle: '',
         size: '',
         price: 0,
-        paymentType:'',
-        currency:"",
+        paymentType: '',
+        currency: "",
         previewPhoto: {
-            file_b64:"",
-            file:'',
-            name:""
+            file_b64: "",
+            file: '',
+            name: ""
         },
         contact: {
             fullName: '',
             email: '',
             phone: '',
             address: '',
-            country: '',
+            country: 'bg',
             city: '',
             postcode: ''
         }
@@ -43,11 +43,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Set currency based on language
     const currentLang = window.i18n.getCurrentLanguage();
-    switch(currentLang) {
+    switch (currentLang) {
         case 'de':
             formData.currency = 'EUR';
             break;
-        case 'en': 
+        case 'en':
             formData.currency = 'GBP';
             break;
         default:
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const res = await fetch("https://api.ipify.org?format=json");
         const data = await res.json();
         return data.ip;
-      };
+    };
 
 
     function initForm() {
@@ -80,36 +80,36 @@ document.addEventListener('DOMContentLoaded', function() {
         photoInput.addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
                 const file = e.target.files[0];
-                
+
                 // Validate file type and size
                 if (!['image/jpeg', 'image/png'].includes(file.type)) {
                     showError(photoError, 'photoError');
                     return;
                 }
-                
+
                 if (file.size > 10 * 1024 * 1024) { // 10MB
                     showError(photoError, 'photoError');
                     return;
                 }
-                
+
                 PreviewFile = file;
-               
+
                 const reader = new FileReader();
-                
-                
+
+
                 reader.onload = (e) => {
-                    
+
                     const base64DataUrl = e.target.result;
                     formData.personPhoto.file = file;
                     formData.personPhoto.file_b64 = base64DataUrl;
                     formData.personPhoto.name = file.name;
-        
+
                     previewImage.src = base64DataUrl;
                     photoUpload.style.display = 'none';
                     photoPreview.style.display = 'block';
                     hideError(photoError);
                 };
-                
+
                 reader.readAsDataURL(file);
             }
         });
@@ -164,13 +164,13 @@ document.addEventListener('DOMContentLoaded', function() {
         generatePreview.addEventListener('click', async () => {
             previewPlaceholder.style.display = 'none';
             previewLoading.style.display = 'flex';
-            
+
             // Create and show loading animation
             const loadingAnimation = document.createElement('div');
             loadingAnimation.style.position = 'relative';
             loadingAnimation.style.width = '100%';
             loadingAnimation.style.height = '100%';
-            
+
             const loadingImage = document.createElement('img');
             loadingImage.src = URL.createObjectURL(PreviewFile);
             loadingImage.style.width = '100%';
@@ -178,17 +178,17 @@ document.addEventListener('DOMContentLoaded', function() {
             loadingImage.style.objectFit = 'contain';
             loadingImage.style.filter = 'blur(20px)';
             loadingImage.style.transition = 'filter 60s linear';
-            
+
             loadingAnimation.appendChild(loadingImage);
             previewLoading.appendChild(loadingAnimation);
-            
+
             // Start the unblur animation
             setTimeout(() => {
                 loadingImage.style.filter = 'blur(0px)';
             }, 100);
 
             const ip = await getUserIP();
-            
+
             // Prepare form data for the API request
             const formDataToSend = new FormData();
             formDataToSend.append('PersonPhoto', formData.personPhoto.file);
@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 const result = await response.json();
-                
+
                 // Check if user is banned
                 if (result.banned === "true") {
                     previewLoading.style.display = 'none';
@@ -223,22 +223,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Convert base64 to File object
                 const base64Response = await fetch(imageUrl);
                 const blob = await base64Response.blob();
-                const file = new File([blob], Math.random().toString(36).substring(7)+".png", { type: 'image/png' });
+                const file = new File([blob], Math.random().toString(36).substring(7) + ".png", { type: 'image/png' });
 
                 formData.previewPhoto.file_b64 = imageUrl;
                 formData.previewPhoto.name = file.name;
                 formData.previewPhoto.file = file;
-            
+
                 // Update UI
                 previewLoading.style.display = 'none';
                 previewResult.style.display = 'flex';
                 previewInfo.style.display = "flex";
-            
+
                 // Display image
                 const img = document.getElementById("figurePreview");
                 img.src = imageUrl;
                 img.alt = 'Generated Preview';
-            
+
             } catch (error) {
                 console.error('Error generating preview:', error);
                 previewLoading.style.display = 'none';
@@ -285,13 +285,54 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // Previous buttons
-        document.querySelectorAll('.btn-prev').forEach(button => {
-            button.addEventListener('click', () => {
-                const targetStep = parseInt(button.getAttribute('data-step'));
-                goToStep(targetStep);
-            });
-        });
+      // Previous buttons
+document.querySelectorAll('.btn-prev').forEach(button => {
+    button.addEventListener('click', () => {
+        const targetStep = parseInt(button.getAttribute('data-step'));
+
+        // Ако се връщаме от стъпка 3 към стъпка 2, нулирай preview-а
+        if (currentStep === 3 && targetStep === 2) {
+            // Скриване на preview резултати и грешки
+            previewResult.style.display = 'none';
+            previewInfo.style.display = 'none';
+            previewErrorContainer.style.display = 'none';
+            previewLoading.style.display = 'none';
+
+            // Премахни анимация/blur изображение
+            const loadingImageEl = previewLoading.querySelector('img');
+            if (loadingImageEl) loadingImageEl.remove();
+
+            // Изчистване на изображението
+            const img = document.getElementById("figurePreview");
+            img.src = '';
+            img.alt = '';
+
+            // Покажи бутона "Generate Preview" отново
+            previewPlaceholder.style.display = 'flex';
+
+            // Нулиране на preview файла
+            formData.previewPhoto = {
+                file_b64: "",
+                file: '',
+                name: ""
+            };
+
+            // ❗️Ресет на слайдъра с мненията
+            const sliderContainer = document.getElementById("reviewsSlider");
+            const testimonialWrapper = document.getElementById("testimonialWrapper");
+            if (sliderContainer) {
+                sliderContainer.style.display = "none";
+                sliderContainer.removeAttribute("data-loaded");
+            }
+            if (testimonialWrapper) {
+                testimonialWrapper.innerHTML = ""; // премахва всички слайдове
+            }
+        }
+
+        goToStep(targetStep);
+    });
+});
+
 
         // Form submission
         const submitForm = document.getElementById('submitForm');
@@ -305,68 +346,76 @@ document.addEventListener('DOMContentLoaded', function() {
 
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            
+
             if (validateStep4()) {
-               submitForm.disabled = true;
-               let loadingPercent = 1;
-               const loadingInterval = setInterval(() => {
-                   loadingPercent++;
-                   submitForm.textContent = `Loading ${loadingPercent}%`;
-                   if (loadingPercent >= 100) {
-                       clearInterval(loadingInterval);
-                   }
-               }, 50); // 5000ms / 100 steps = 50ms per step
+                submitForm.disabled = true;
+                let loadingPercent = 1;
+                const loadingInterval = setInterval(() => {
+                    loadingPercent++;
+                    submitForm.textContent = `Loading ${loadingPercent}%`;
+                    if (loadingPercent >= 100) {
+                        clearInterval(loadingInterval);
+                    }
+                }, 50); // 5000ms / 100 steps = 50ms per step
 
 
-              async function submitFinalOrder() {
-                try {
-                    const fd = new FormData();
-                    fd.append('PersonPhoto', formData.personPhoto.file); // the raw File object
-                    fd.append('FileName_PersonPhoto', formData.personPhoto.name);
-                    fd.append('pose', formData.pose);
-                    fd.append('clothesDescription', formData.clothesDescription);
-                    fd.append('size', formData.size);
-                    fd.append('price', formData.price);
-                    fd.append('fullName', formData.contact.fullName);
-                    fd.append('email', formData.contact.email);
-                    fd.append('phone', formData.contact.phone);
-                    fd.append('address', formData.contact.address);
-                    fd.append('country', formData.contact.country);
-                    fd.append('city', formData.contact.city);
-                    fd.append('postcode', formData.contact.postcode);
-                    fd.append('PreviewImage', formData.previewPhoto.file);
-                    fd.append('currency', formData.currency);
-                    fd.append('paymentType', formData.paymentType);
+                async function submitFinalOrder() {
+                    try {
+                        const fd = new FormData();
 
-                     // the raw File object
-              
-                  // Send to Make
-                  const response = await fetch('https://primary-production-5c317.up.railway.app/webhook/fa49284e-20c0-46d9-931a-d3f52867ebcb', {
-                    method: 'POST',
-                    body: fd,
-                  });
-              
-                  if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                  }
-              
-                  const result = await response.json()
-                  if (result.checkoutUrl) {
-                    window.location.href = result.checkoutUrl;
-                  }
-              
-                  // UI feedback
-                  submissionLoading.style.display = 'none';
-                  submissionSuccess.style.display = 'flex';
-                } catch (error) {
-                  console.error('Order submission failed:', error);
-                  submissionLoading.style.display = 'none';
-                  submissionError.style.display = 'flex';
-                  errorMessage.textContent = 'Something went wrong while placing your order.';
+                        // 🔁 Normalize phone
+                        const validatedPhone = validatePhone(formData.contact.phone);
+                        if (!validatedPhone) {
+                            alert('Моля, въведи валиден телефонен номер във формат +359...');
+                            return;
+                        }
+
+                        fd.append('PersonPhoto', formData.personPhoto.file); // the raw File object
+                        fd.append('FileName_PersonPhoto', formData.personPhoto.name);
+                        fd.append('pose', formData.pose);
+                        fd.append('clothesDescription', formData.clothesDescription);
+                        fd.append('size', formData.size);
+                        fd.append('price', formData.price);
+                        fd.append('fullName', formData.contact.fullName);
+                        fd.append('email', formData.contact.email);
+                        fd.append('phone', validatedPhone);
+                        fd.append('address', formData.contact.address);
+                        fd.append('country', formData.contact.country);
+                        fd.append('city', formData.contact.city);
+                        fd.append('postcode', formData.contact.postcode);
+                        fd.append('PreviewImage', formData.previewPhoto.file);
+                        fd.append('currency', formData.currency);
+                        fd.append('paymentType', formData.paymentType);
+
+                        // the raw File object
+
+                        // Send to Make
+                        const response = await fetch('https://primary-production-5c317.up.railway.app/webhook/fa49284e-20c0-46d9-931a-d3f52867ebcb', {
+                            method: 'POST',
+                            body: fd,
+                        });
+
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+
+                        const result = await response.json()
+                        if (result.checkoutUrl) {
+                            window.location.href = result.checkoutUrl;
+                        }
+
+                        // UI feedback
+                        submissionLoading.style.display = 'none';
+                        submissionSuccess.style.display = 'flex';
+                    } catch (error) {
+                        console.error('Order submission failed:', error);
+                        submissionLoading.style.display = 'none';
+                        submissionError.style.display = 'flex';
+                        errorMessage.textContent = 'Something went wrong while placing your order.';
+                    }
                 }
-              }
-        
-              submitFinalOrder()
+
+                submitFinalOrder()
 
 
 
@@ -376,7 +425,7 @@ document.addEventListener('DOMContentLoaded', function() {
         retrySubmission.addEventListener('click', () => {
             submissionError.style.display = 'none';
             submissionLoading.style.display = 'flex';
-            
+
             // Retry submission simulation
             setTimeout(() => {
                 submissionLoading.style.display = 'none';
@@ -388,7 +437,7 @@ document.addEventListener('DOMContentLoaded', function() {
         stepIndicators.forEach((indicator) => {
             indicator.addEventListener('click', () => {
                 const step = parseInt(indicator.getAttribute('data-step'));
-                
+
                 // Only allow going to previous steps or current step
                 if (step < currentStep || step === currentStep) {
                     goToStep(step);
@@ -400,12 +449,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Validation functions
     function validateStep1() {
         const photoError = document.getElementById('photoError');
-        
+
         if (!formData.personPhoto.file) {
             showError(photoError, 'photoError');
             return false;
         }
-        
+
         return true;
     }
 
@@ -415,12 +464,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const poseError = document.getElementById('poseError');
         const styleError = document.getElementById('styleError');
         let isValid = true;
-        
+
         if (clothesDescription.value.length < 8) {
             showError(clothesError, 'clothesError');
             isValid = false;
         }
-        
+
         if (!formData.pose) {
             showError(poseError, 'poseError');
             isValid = false;
@@ -429,7 +478,7 @@ document.addEventListener('DOMContentLoaded', function() {
             showError(styleError, 'styleError');
             isValid = false;
         }
-        
+
         return isValid;
     }
 
@@ -451,9 +500,9 @@ document.addEventListener('DOMContentLoaded', function() {
             { value: formData.contact.postcode, errorElement: document.getElementById('sizeError'), message: 'sizeError' },
             { value: formData.paymentType, errorElement: document.getElementById('paymentError'), message: 'paymentTypeError' }
         ];
-        
+
         let isValid = true;
-        
+
         fields.forEach(field => {
             if (!field.value) {
                 showError(field.errorElement, field.message);
@@ -465,7 +514,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 hideError(field.errorElement);
             }
         });
-        
+
         return isValid;
     }
 
@@ -475,10 +524,35 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function validatePhone(phone) {
-        // Simple phone validation - adjust as needed
-        const re = /^\+?[\d\s-]{7,15}$/;
-        return re.test(phone);
+        // Премахваме интервали, тирета и скоби
+        phone = phone.replace(/[\s-()]/g, '');
+
+        // Заменяме префикс 00359 с +359
+        if (phone.startsWith('00359')) {
+            phone = phone.replace(/^00359/, '+359');
+        }
+
+        // Заменяме водеща 0 с +359
+        else if (phone.startsWith('0') && phone.length === 10) {
+            phone = phone.replace(/^0/, '+359');
+        }
+
+        // Ако е 9-цифрен и започва с 8 (без префикс) — добавяме +359
+        else if (/^8\d{8}$/.test(phone)) {
+            phone = '+359' + phone;
+        }
+
+        // Ако вече е правилен формат (+359XXXXXXXXX)
+        else if (/^\+359\d{9}$/.test(phone)) {
+            // остава както е
+        } else {
+            return null; // невалиден номер
+        }
+
+        // Финална валидация — дали е точно +359 и 9 цифри след това
+        return /^\+359\d{9}$/.test(phone) ? phone : null;
     }
+
 
     function showError(errorElement, message) {
         errorElement.textContent = window.i18n.t(message);
@@ -492,25 +566,25 @@ document.addEventListener('DOMContentLoaded', function() {
     // Step navigation
     function goToStep(step) {
         if (step < 1 || step > steps.length) return;
-        
+
         // Update current step
         currentStep = step;
-        
+
         // Update step indicators
         stepIndicators.forEach((indicator, index) => {
             const stepNum = index + 1;
             indicator.classList.remove('active', 'completed');
-            
+
             if (stepNum < currentStep) {
                 indicator.classList.add('completed');
             } else if (stepNum === currentStep) {
                 indicator.classList.add('active');
             }
         });
-        
+
         // Update progress bar
         progressFill.style.width = `${((currentStep - 1) / (steps.length - 1)) * 100}%`;
-        
+
         // Show current step
         steps.forEach((stepEl, index) => {
             stepEl.classList.remove('active');
@@ -518,7 +592,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 stepEl.classList.add('active');
             }
         });
-        
+
         // Scroll to top of form
         document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
     }
@@ -536,8 +610,8 @@ function selectPaymentMethod(method) {
     if (method === 'card') {
         document.getElementById('paymentCard').classList.add('selected');
         formData.paymentType = "card"
-        if(isCodChosen==true){
-            formData.price-=19.90
+        if (isCodChosen == true) {
+            formData.price -= 19.90
             isCodChosen = false
         }
 
@@ -570,7 +644,7 @@ function updateTotalPrice() {
 
     let finalPrice = basePrice;
     // Only add COD fee if it hasn't been added before
-    if (paymentMethod === 'cod' && isCodChosen==false) {
+    if (paymentMethod === 'cod' && isCodChosen == false) {
         finalPrice += 19.90;
         formData.price += 19.90
         isCodChosen = true
