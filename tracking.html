@@ -23,68 +23,47 @@
       <p><strong>Статус на поръчката:</strong> <span id="orderStatus"></span></p>
     </div>
 
-    <div class="echantiya-order-details" id="orderDetails" style="display: none;">
-      <h3>Детайли за поръчката</h3>
-      <div class="echantiya-order-item">
-        <div class="echantiya-item-label">Номер на поръчка:</div>
-        <div class="echantiya-item-value" id="orderId"></div>
-      </div>
-      <div class="echantiya-order-item">
-        <div class="echantiya-item-label">Дата на поръчка:</div>
-        <div class="echantiya-item-value" id="orderDate"></div>
-      </div>
-      <div class="echantiya-order-item">
-        <div class="echantiya-item-label">Очаквана доставка:</div>
-        <div class="echantiya-item-value" id="deliveryDate"></div>
-      </div>
-      <div class="echantiya-order-item">
-        <div class="echantiya-item-label">Описание на дрехите:</div>
-        <div class="echantiya-item-value" id="clothesDescription"></div>
-      </div>
-      <div class="echantiya-order-item">
-        <div class="echantiya-item-label">Избрана поза:</div>
-        <div class="echantiya-item-value"><img id="poseImage" style="max-width: 140px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);" /></div>
-      </div>
-      <div class="echantiya-order-item">
-        <div class="echantiya-item-label">Очакван резултат:</div>
-        <div class="echantiya-item-value"><img id="resultImage" style="max-width: 160px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);" /></div>
-      </div>
-    </div>
-
     <a href="/" class="echantiya-btn" id="backHome" style="display: none;">Обратно към началната страница</a>
   </div>
 
   <script>
-    const orders = {
-      "123456789": {
-        status: "Изпратена",
-        date: "12 май 2025",
-        delivery: "17 май 2025",
-        clothes: "Черна суитшъртка с малко червено лого на гърдите.",
-        pose: "https://cdn.shopify.com/s/files/1/0842/0933/6585/files/relaxed.png?v=1745407341",
-        result: "https://cdn.shopify.com/s/files/1/0842/0933/6585/files/figure-preview.png?v=1745407343"
-      }
-    };
-
-    function trackOrder(event) {
+    async function trackOrder(event) {
       event.preventDefault();
-      const input = document.getElementById('orderNumber').value.trim();
-      const order = orders[input];
-
-      if (order) {
-        document.getElementById('trackingStatus').style.display = 'block';
-        document.getElementById('orderDetails').style.display = 'block';
-        document.getElementById('backHome').style.display = 'inline-block';
-
-        document.getElementById('orderId').innerText = '#' + input;
-        document.getElementById('orderStatus').innerText = order.status;
-        document.getElementById('orderDate').innerText = order.date;
-        document.getElementById('deliveryDate').innerText = order.delivery;
-        document.getElementById('clothesDescription').innerText = order.clothes;
-        document.getElementById('poseImage').src = order.pose;
-        document.getElementById('resultImage').src = order.result;
+  
+      const orderId = document.getElementById('orderNumber').value.trim();
+      const statusEl = document.getElementById('trackingStatus');
+      const statusText = document.getElementById('orderStatus');
+      const backHomeBtn = document.getElementById('backHome');
+  
+      // Clear old status
+      statusText.textContent = '';
+      statusEl.style.display = 'none';
+      backHomeBtn.style.display = 'none';
+  
+      try {
+        const response = await fetch('https://custom-apis.vercel.app/api/airtable_trackorder', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ id: orderId })
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+        statusText.textContent = typeof data === 'string' ? data : data.status || 'Статусът не е наличен';
+      } else if (data.error) {
+        statusText.textContent = 'Грешка: ' + data.error;
       } else {
-        alert('Поръчката не е намерена. Моля, проверете номера.');
+          statusText.textContent = 'Не е намерена информация за тази поръчка.';
+        }
+  
+        statusEl.style.display = 'block';
+        backHomeBtn.style.display = 'inline-block';
+      } catch (err) {
+        statusText.textContent = 'Възникна грешка при връзка със сървъра.';
+        statusEl.style.display = 'block';
       }
     }
   </script>
