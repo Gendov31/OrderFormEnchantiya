@@ -43,7 +43,7 @@ const translations = {
         fullName: "Пълно име",
         email: "Имейл адрес",
         phone: "Телефонен номер",
-        address: "Адрес",
+        address: "Адрес / офис на Еконт",
         country: "Държава",
         city: "Град",
         postcode: "Пощенски код",
